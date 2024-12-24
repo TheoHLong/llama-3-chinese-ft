@@ -1,0 +1,37 @@
+model:
+  name: "unsloth/Meta-Llama-3.1-8B"
+  max_seq_length: 2048
+  load_in_4bit: true
+  lora:
+    r: 16
+    target_modules: 
+      - "q_proj"
+      - "k_proj"
+      - "v_proj"
+      - "o_proj"
+      - "gate_proj"
+      - "up_proj"
+      - "down_proj"
+    lora_alpha: 16
+    lora_dropout: 0
+    bias: "none"
+    use_gradient_checkpointing: "unsloth"
+    random_state: 3407
+    use_rslora: false
+
+training:
+  batch_size: 64
+  gradient_accumulation_steps: 32
+  learning_rate: 1e-4
+  num_train_epochs: 1
+  warmup_steps: 3
+  weight_decay: 0.01
+  lr_scheduler_type: "linear"
+  optim: "adamw_8bit"
+  seed: 3407
+  output_dir: "output"
+  report_to: "wandb"
+
+data:
+  dataset_path: "alpaca-chinese-52k-v3.json"
+  num_proc: 4
